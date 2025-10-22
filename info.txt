@@ -1,0 +1,1 @@
+Damit der Code ordnungsmäßig funktioniert, muss sich der Ordner "Jahresarbeit" in dem Ordner befinden, wo Microsoft Visual Studios Zugriff auf die Inhalte hat.
