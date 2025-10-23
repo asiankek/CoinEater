@@ -1,4 +1,4 @@
-import pygame, os, random, sys
+import pygame, os, random
 from pygame.locals import *
 import math
 
@@ -15,19 +15,8 @@ fpsClock = pygame.time.Clock()
 fps = 60
 background = pygame.Color(10, 10, 10)
 
-BASE_DIR = os.path.dirname(__file__)
-
-def load_image(path):
-    return pygame.image.load(os.path.join(BASE_DIR, "assets", "images", path))
-
-def load_sound(path):
-    return pygame.mixer.Sound(os.path.join(BASE_DIR, "assets", "sounds", path))
-
-def load_music(path):
-    return pygame.mixer_music.load(os.path.join(BASE_DIR, "assets", "sounds", path))
-
 # Spielfeld erstellen
-spielfeldImage = pygame.transform.rotozoom(load_image("spielfeld.png"), 0, 1.02)
+spielfeldImage = pygame.transform.rotozoom(pygame.image.load("jahresarbeit/Bilder/spielfeld.png"), 0, 1.02)
 spielfeldRect = spielfeldImage.get_rect()
 spielfeldRect.topleft = (350, 0)
 
@@ -37,15 +26,15 @@ player_start_y = 1020/2 - 26
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.imageOben = load_image("FroschOben.png")
-        self.imageUnten = load_image("FroschUnten.png")
-        self.imageRechts = load_image("FroschRechts.png")
-        self.imageLinks = load_image("FroschLinks.png")
+        self.imageOben = pygame.image.load("jahresarbeit/Bilder/FroschOben.png")
+        self.imageUnten = pygame.image.load("jahresarbeit/Bilder/FroschUnten.png")
+        self.imageRechts = pygame.image.load("jahresarbeit/Bilder/FroschRechts.png")
+        self.imageLinks = pygame.image.load("jahresarbeit/Bilder/FroschLinks.png")
 
-        self.imageObenRechts = load_image("FroschObenRechts.png")
-        self.imageUntenRechts = load_image("FroschUntenRechts.png")
-        self.imageUntenLinks = load_image("FroschUntenLinks.png")
-        self.imageObenLinks = load_image("FroschObenLinks.png")
+        self.imageObenRechts = pygame.image.load("jahresarbeit/Bilder/FroschObenRechts.png")
+        self.imageUntenRechts = pygame.image.load("jahresarbeit/Bilder/FroschUntenRechts.png")
+        self.imageUntenLinks = pygame.image.load("jahresarbeit/Bilder/FroschUntenLinks.png")
+        self.imageObenLinks = pygame.image.load("jahresarbeit/Bilder/FroschObenLinks.png")
         
         self.pos = pygame.math.Vector2(player_start_x, player_start_y)
         self.rect = self.imageOben.get_rect()
@@ -185,7 +174,7 @@ class Münze(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.pos = pygame.math.Vector2(x, y)        
-        self.image = load_image("münze.png")
+        self.image = pygame.image.load("Jahresarbeit/Bilder/münze.png")
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.pos)
     # Kollision überprüfen
@@ -210,7 +199,7 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
         self.geschwindigkeit_x = geschwindigkeit_x
         self.geschwindigkeit_y = geschwindigkeit_y
-        self.image = load_image("steine.png")
+        self.image = pygame.image.load("Jahresarbeit/Bilder/steine.png")
         self.pos = pygame.math.Vector2(x, y)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
@@ -247,7 +236,7 @@ class Enemy(pygame.sprite.Sprite):
                 death_sound.play()
                 if statistiken.ScoreCount > statistiken.HighscoreCount:
                     statistiken.HighscoreCount = statistiken.ScoreCount
-                    
+            
     def update(self):
         self.move()
         self.Randcheck()
@@ -262,10 +251,10 @@ enemyGroup.add(Enemy(rx(), ry(), rg(), rg()))
 font = pygame.font.SysFont("microsoftsansserif", 50, True, True)
 class Statistiken(object):
     def __init__(self):
-        self.imageScoreboard = pygame.transform.rotozoom(load_image("Highscore.png"), 0, 1.45)
+        self.imageScoreboard = pygame.transform.rotozoom(pygame.image.load("Jahresarbeit/Bilder/Highscore.png"), 0, 1.45)
         self.ScoreCount = 0
         self.HighscoreCount = 0
-        self.imageHerz = pygame.transform.rotozoom(load_image("FroschLife.png"), 0, 1.5)
+        self.imageHerz = pygame.transform.rotozoom(pygame.image.load("Jahresarbeit/Bilder/FroschLife.png"), 0, 1.5)
     def highsScoreUpdate(self):
         highscoreText = font.render(str(self.HighscoreCount), 1, (0, 0, 0))
         screen.blit(highscoreText, (1700, 365))
@@ -293,7 +282,7 @@ statistiken = Statistiken()
 # Healfeld erstellen
 class Heal(pygame.sprite.Sprite):
     def __init__(self):
-        self.image = load_image("heal.png")
+        self.image = pygame.image.load("Jahresarbeit/Bilder/heal.png")
         self.rect = self.image.get_rect()
         self.pos = pygame.math.Vector2(random.randint(350, 1920 - 40 - 350), random.randint(0, 1010 - 40))
         self.rect.topleft = self.pos
@@ -319,7 +308,7 @@ DashCooldownInSekunden = 0
 font1 = pygame.font.SysFont("microsoftsansserif", 30, True, True)
 class Info(object):
     def __init__(self):
-        self.imageSteuerung = load_image("steuerung.png")
+        self.imageSteuerung = pygame.image.load("Jahresarbeit/Bilder/steuerung.png")
     def startText(self):
         startText = font.render("Drücke 'P' um das Spiel zu starten!", 1, (255, 255, 255))
         screen.blit(startText, (600, 300))
@@ -349,43 +338,43 @@ class Info(object):
 info = Info()
 
 # Hintergrundmusik hinzufügen
-background_music = load_music("Froschgame.mp3")
+background_music = pygame.mixer_music.load("Jahresarbeit/Musik_Sound/Froschgame.mp3")
 pygame.mixer.music.play(-1)
 background_music_volume = 0.3
 pygame.mixer_music.set_volume(background_music_volume)
 
 # Soundeffekte hinzufügen
 death_s = 0.5
-death_sound = load_sound("FroschDead.mp3")
+death_sound = pygame.mixer.Sound("Jahresarbeit/Musik_Sound/FroschDead.mp3")
 death_sound.set_volume(death_s)
 münzen_s = 0.025
-münzeaufnehmen_sound = load_sound("münzeaufnehmen.mp3")
+münzeaufnehmen_sound = pygame.mixer.Sound("Jahresarbeit/Musik_Sound/münzeaufnehmen.mp3")
 münzeaufnehmen_sound.set_volume(münzen_s)
 HP_s = 0.1
-HPaufnehmen_sound = load_sound("heilen.mp3")
+HPaufnehmen_sound = pygame.mixer.Sound("Jahresarbeit/Musik_Sound/heilen.mp3")
 HPaufnehmen_sound.set_volume(HP_s)
 G_s = 0.5
-GegnerKollision_sound = load_sound("GegnerKollisionSound.mp3")
+GegnerKollision_sound = pygame.mixer.Sound("Jahresarbeit/Musik_Sound/GegnerKollisionSound.mp3")
 GegnerKollision_sound.set_volume(G_s)
 
 class Volume(object):
     def __init__(self):
-        self.imageVolUp = load_image("volumeUP.png")
+        self.imageVolUp = pygame.image.load("Jahresarbeit/Bilder/volumeUP.png")
         self.imageVolUp_rect = self.imageVolUp.get_rect()
         self.imageVolUP_pos = pygame.math.Vector2(1830, 900)
         self.imageVolUp_rect.center = self.imageVolUP_pos
 
-        self.imageVolDOWN = load_image("volumeDOWN.png")
+        self.imageVolDOWN = pygame.image.load("Jahresarbeit/Bilder/volumeDOWN.png")
         self.imageVolDOWN_rect = self.imageVolDOWN.get_rect()
         self.imageVolDOWN_pos = pygame.math.Vector2(1670, 900)
         self.imageVolDOWN_rect.center = self.imageVolDOWN_pos
 
-        self.imageVolUp1 = load_image("volumeUP1.png")
+        self.imageVolUp1 = pygame.image.load("Jahresarbeit/Bilder/volumeUP1.png")
         self.imageVolUp1_rect = self.imageVolUp1.get_rect()
         self.imageVolUP1_pos = pygame.math.Vector2(1830, 700)
         self.imageVolUp1_rect.center = self.imageVolUP1_pos
 
-        self.imageVolDOWN1 = load_image("volumeDOWN1.png")
+        self.imageVolDOWN1 = pygame.image.load("Jahresarbeit/Bilder/volumeDOWN1.png")
         self.imageVolDOWN1_rect = self.imageVolDOWN1.get_rect()
         self.imageVolDOWN1_pos = pygame.math.Vector2(1670, 700)
         self.imageVolDOWN1_rect.center = self.imageVolDOWN1_pos
@@ -413,7 +402,7 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
-            sys.exit()
+            exit()
         elif event.type == KEYDOWN:
             if event.key == K_p:
                 if gameRunning != True:
